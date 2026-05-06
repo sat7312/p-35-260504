@@ -5,6 +5,7 @@ plugins {
 	id("org.springframework.boot") version "4.0.6"
 	id("io.spring.dependency-management") version "1.1.7"
 	kotlin("plugin.jpa") version "2.2.21"
+	kotlin("kapt") version "2.2.21"
 }
 
 group = "com.back"
@@ -38,7 +39,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
 	implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
-	
+
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
@@ -51,6 +52,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	kapt("io.github.openfeign.querydsl:querydsl-apt:7.1:jpa")
 }
 
 kotlin {
