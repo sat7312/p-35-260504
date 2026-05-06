@@ -6,12 +6,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-@ActiveProfiles("test")
-@Transactional
 class MemberRepositoryTest {
 
     @Autowired
@@ -68,14 +64,8 @@ class MemberRepositoryTest {
     }
 
     @Test
-    fun `findByUsernameOrNickname()`() {
-        val memberList = memberRepository.findByUsernameOrNickname("user1", "유저2")
-        assertThat(memberList.map { it.username }).containsAnyOf("user1", "user2")
-    }
-
-    @Test
     fun `findQByUsernameOrNickname()`() {
-        val memberList = memberRepository.findByUsernameOrNickname("user1", "유저2")
+        val memberList = memberRepository.findQByUsernameOrNickname("user1", "유저2")
         assertThat(memberList.map { it.username }).containsAnyOf("user1", "user2")
     }
 
@@ -83,7 +73,6 @@ class MemberRepositoryTest {
     fun `findCByUsernameAndEitherPasswordOrNickname`() {
         // select * from member where username = ? and (password = ? or nickname = ?)
         val members = memberRepository.findCByUsernameAndEitherPasswordOrNickname("admin", "wrong-password", "운영자")
-
         assertThat(members).isNotEmpty
         assertThat(members.any { it.username == "admin" && (it.password == "wrong-password" || it.nickname == "운영자") }).isTrue
     }
@@ -137,5 +126,12 @@ class MemberRepositoryTest {
         assertThat(page.content).hasSize(2)
         assertThat(page.totalElements).isEqualTo(3)
         assertThat(page.totalPages).isEqualTo(2)
+    }
+
+    @Test
+    fun `findQByNicknameContaining with Pageable count test`() {
+        val pageable = PageRequest.of(0, 2)
+        val page = memberRepository.findQByNicknameContaining("유저1", pageable)
+
     }
 }
