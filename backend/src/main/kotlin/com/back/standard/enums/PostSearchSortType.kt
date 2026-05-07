@@ -1,5 +1,7 @@
 package com.back.standard.enums
 
+import org.springframework.data.domain.Sort
+
 enum class PostSearchSortType {
     ID,
     ID_ASC;
