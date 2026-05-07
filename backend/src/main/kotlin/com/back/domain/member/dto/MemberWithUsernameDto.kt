@@ -17,6 +17,6 @@ data class MemberWithUsernameDto(
         member.username,
         member.nickname,
         member.createDate,
-        member.createDate
+        member.modifyDate
     )
 }
