@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 class MemberRepositoryTest {
@@ -177,5 +178,25 @@ class MemberRepositoryTest {
         for (i in 0 until page.content.size - 1) {
             assertThat(page.content[i].id).isGreaterThan(page.content[i + 1].id)
         }
+    }
+
+    @Test
+    @Transactional
+    fun `findById, twice`() {
+        println("findById, 1st call")
+        memberRepository.findById(1)
+        println("findById, 2nd call")
+        memberRepository.findById(1)
+
+    }
+
+    @Test
+    @Transactional
+    fun `findByUsername, twice`() {
+        println("findById, 1st call")
+        memberRepository.findByUsername("user1")
+        println("findById, 2nd call")
+        memberRepository.findByUsername("user1")
+
     }
 }
